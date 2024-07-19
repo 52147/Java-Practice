@@ -1,0 +1,4 @@
+- **TreeMap**
+  - **Description:** Red-black tree-based implementation of the NavigableMap interface.
+  - **Performance:** Sorted order, but slower access, insertion, and deletion compared to HashMap.
+  - **Use Case:** When you need a sorted map.

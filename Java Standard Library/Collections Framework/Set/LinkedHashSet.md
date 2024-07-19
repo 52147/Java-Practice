@@ -1,0 +1,4 @@
+- **LinkedHashSet**
+  - **Description:** Hash table and linked list implementation of the Set interface with predictable iteration order.
+  - **Performance:** Similar to HashSet with the added feature of maintaining insertion order.
+  - **Use Case:** When you need a collection with unique elements and a predictable iteration order.

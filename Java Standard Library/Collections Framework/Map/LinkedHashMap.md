@@ -1,0 +1,4 @@
+- **LinkedHashMap**
+  - **Description:** Hash table and linked list implementation of the Map interface with predictable iteration order.
+  - **Performance:** Similar to HashMap with the added feature of maintaining insertion order.
+  - **Use Case:** When you need a map with predictable iteration order.

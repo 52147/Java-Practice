@@ -1,0 +1,4 @@
+- **LinkedList**
+  - **Description:** Doubly-linked list implementation of the List and Deque interfaces.
+  - **Performance:** Fast insertion and deletion in the middle of the list. Slow random access.
+  - **Use Case:** When you frequently add or remove elements from the middle of the list and don't need fast access to elements using an index.

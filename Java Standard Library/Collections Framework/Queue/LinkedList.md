@@ -1,0 +1,4 @@
+- **LinkedList**
+  - **Description:** Doubly-linked list implementation of the List and Deque interfaces.
+  - **Performance:** Provides O(1) time for the enqueuing and dequeuing methods (offer, poll, remove() and add) if used as a queue.
+  - **Use Case:** When you need a queue backed by a doubly-linked list.

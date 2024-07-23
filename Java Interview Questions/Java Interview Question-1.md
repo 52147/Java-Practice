@@ -1,4 +1,4 @@
-Can you describe how the Java memory model works and explain the difference between stack and heap memory?
+## Can you describe how the Java memory model works and explain the difference between stack and heap memory?
 
 
 In Java, the **heap memory** is where objects are stored. When you create a new object using the `new` keyword, it gets allocated in the heap. The heap memory is managed by the garbage collector, which automatically removes objects that are no longer referenced.
@@ -45,7 +45,7 @@ public class Example {
 This mechanism ensures that each method call gets its own isolated context for execution, with all necessary local variables and execution state maintained separately.
 
 
-What are the differences between an interface and an abstract class in Java?
+## What are the differences between an interface and an abstract class in Java?
 Good explanation! Here's a brief summary:
 
 An interface in Java:
@@ -59,7 +59,7 @@ An abstract class in Java:
 - A class can only extend one abstract class.
 - The child class must implement all abstract methods of the abstract class.
 
-`static` keyword
+## `static` keyword
 
 Exactly! The `static` keyword in Java is used to indicate that a particular member (variable, method, or nested class) belongs to the class itself, rather than instances of the class. Here's a brief overview:
 
@@ -135,7 +135,7 @@ Constructor executed.
 - They can be used to initialize static variables or perform other one-time setup tasks.
 - Multiple static blocks in the same class are executed in the order they appear in the class.
 
-StringBuilder vs. StringBuffer
+## StringBuilder vs. StringBuffer
 
 Great, you've got the basic idea. Here's a bit more detail:
 
@@ -151,4 +151,3 @@ Great, you've got the basic idea. Here's a bit more detail:
 
 In summary, you should use `StringBuilder` when you do not need thread safety and performance is a concern. Use `StringBuffer` when you need thread safety for string operations.
 
-Would you like to continue with more Java or Spring Boot questions?

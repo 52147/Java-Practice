@@ -151,3 +151,267 @@ Great, you've got the basic idea. Here's a bit more detail:
 
 In summary, you should use `StringBuilder` when you do not need thread safety and performance is a concern. Use `StringBuffer` when you need thread safety for string operations.
 
+## How does the Java garbage collector work?
+The Java garbage collector (GC) is an automatic memory management system that reclaims memory used by objects that are no longer reachable in a Java program. Here's an overview of how it works:
+
+### 1. **Memory Management in Java:**
+   - **Heap:** The area of memory where Java objects are stored.
+   - **Stack:** The area of memory where method calls and local variables are stored.
+
+### 2. **Garbage Collection Process:**
+
+   - **Marking:** The GC identifies which objects are still in use and which are not. This is done by traversing all object references from root nodes (such as active threads, static fields, and local variables in the stack) and marking all reachable objects.
+   - **Sweeping:** The GC removes the objects that are not marked as reachable. This step reclaims the memory occupied by these objects.
+   - **Compacting:** To avoid fragmentation, the GC may move the surviving objects to a contiguous memory area. This step helps in maintaining larger blocks of free memory.
+
+### 3. **Garbage Collection Algorithms:**
+
+   - **Serial GC:** Uses a single thread for garbage collection, suitable for small applications.
+   - **Parallel GC:** Uses multiple threads for garbage collection, designed for multi-threaded applications.
+   - **CMS (Concurrent Mark-Sweep) GC:** Aims to minimize pauses by performing most of the garbage collection work concurrently with the application threads.
+   - **G1 (Garbage First) GC:** Divides the heap into regions and focuses on collecting regions with the most garbage first, aiming for predictable pause times.
+   - **ZGC (Z Garbage Collector):** A low-latency garbage collector designed to handle large heaps with minimal pause times.
+   - **Shenandoah GC:** Similar to ZGC, focuses on ultra-low pause times.
+
+### 4. **Generations in the Heap:**
+
+   - **Young Generation:** Where new objects are allocated. It is further divided into:
+     - **Eden Space:** Where objects are first created.
+     - **Survivor Spaces (S0 and S1):** Where objects that survive a garbage collection cycle in the Eden space are moved to.
+   - **Old Generation (Tenured Generation):** Where long-lived objects that have survived multiple garbage collection cycles are moved to.
+   - **Permanent Generation (Metaspace in Java 8 and later):** Stores metadata about the classes and methods used in the application.
+
+### 5. **Phases of Garbage Collection in the Young Generation:**
+
+   - **Minor GC:** Collects garbage from the young generation. It is fast and occurs frequently.
+   - **Major GC (Full GC):** Collects garbage from both the young and old generations. It is more comprehensive and can be more time-consuming.
+
+### 6. **Triggers for Garbage Collection:**
+   - When the Java Virtual Machine (JVM) determines that there is insufficient memory to allocate new objects.
+   - Explicit calls to `System.gc()`, though it's generally not recommended as the JVM's automatic garbage collection is usually more efficient.
+
+### 7. **Tuning Garbage Collection:**
+   - Java provides various options and parameters to tune the garbage collection process, such as adjusting the heap size (`-Xmx` and `-Xms`), selecting the garbage collector (`-XX:+UseG1GC`, `-XX:+UseParallelGC`, etc.), and configuring other GC-related settings (`-XX:MaxGCPauseMillis`, `-XX:GCTimeRatio`, etc.).
+
+### Summary:
+
+The Java garbage collector helps manage memory automatically, allowing developers to focus on writing code without worrying about manual memory management. By understanding its workings and tuning options, developers can optimize their applications for better performance and lower latency.
+
+## Can you explain the use of the final keyword in Java?
+
+The `final` keyword in Java is used to define constants, restrict inheritance, and ensure immutability. It can be applied to variables, methods, and classes. Here's a detailed explanation of its usage:
+
+### 1. **Final Variables:**
+   - **Constant Variables:**
+     - When a variable is declared as `final`, its value cannot be changed once it is initialized.
+     - Final variables must be initialized when they are declared, or in the constructor if they are instance variables.
+
+     ```java
+     public class Example {
+         public static final int CONSTANT = 10; // Class-level constant
+
+         public final int instanceVar; // Instance-level constant
+
+         public Example(int value) {
+             this.instanceVar = value; // Initialized in the constructor
+         }
+
+         public void changeValue() {
+             // instanceVar = 20; // This will cause a compile-time error
+         }
+     }
+     ```
+
+### 2. **Final Methods:**
+   - **Preventing Method Overriding:**
+     - A method declared as `final` cannot be overridden by subclasses.
+     - This is useful when you want to ensure that the method's implementation remains unchanged in subclasses.
+
+     ```java
+     public class BaseClass {
+         public final void show() {
+             System.out.println("BaseClass show method");
+         }
+     }
+
+     public class SubClass extends BaseClass {
+         // public void show() {
+         //     System.out.println("SubClass show method");
+         // } // This will cause a compile-time error
+     }
+     ```
+
+### 3. **Final Classes:**
+   - **Preventing Class Inheritance:**
+     - A class declared as `final` cannot be subclassed.
+     - This is useful when you want to prevent inheritance and ensure that the class's implementation remains unchanged.
+
+     ```java
+     public final class FinalClass {
+         public void display() {
+             System.out.println("FinalClass display method");
+         }
+     }
+
+     // public class SubClass extends FinalClass {
+     //     // This will cause a compile-time error
+     // }
+     ```
+
+### 4. **Final Parameters:**
+   - **Immutable Method Parameters:**
+     - Parameters of a method can be declared as `final`. This ensures that the parameter value cannot be changed within the method.
+
+     ```java
+     public void method(final int param) {
+         // param = 20; // This will cause a compile-time error
+         System.out.println(param);
+     }
+     ```
+
+### 5. **Final and Immutability:**
+   - **Creating Immutable Objects:**
+     - The `final` keyword is often used in conjunction with classes and fields to create immutable objects.
+     - Immutable objects are objects whose state cannot be changed once they are created.
+
+     ```java
+     public final class ImmutableClass {
+         private final int value;
+
+         public ImmutableClass(int value) {
+             this.value = value;
+         }
+
+         public int getValue() {
+             return value;
+         }
+     }
+     ```
+
+### Summary:
+The `final` keyword in Java serves multiple purposes:
+- For variables, it creates constants that cannot be reassigned.
+- For methods, it prevents overriding in subclasses.
+- For classes, it prevents inheritance.
+- For method parameters, it ensures the parameters remain unchanged within the method.
+- It helps in creating immutable classes, ensuring that the object's state cannot be altered after it is created.
+
+Using `final` appropriately can lead to more robust and maintainable code by providing clear intentions about immutability and preventing unintended modifications.
+
+## What is the difference between == and equals() in Java?
+
+In Java, `==` and `equals()` are both used to compare objects, but they serve different purposes and are used in different contexts. Here's a detailed explanation of the differences:
+
+### 1. **The `==` Operator:**
+
+- **Primitive Data Types:**
+  - For primitive data types (int, char, float, etc.), the `==` operator compares the actual values.
+  
+    ```java
+    int a = 5;
+    int b = 5;
+    if (a == b) {
+        System.out.println("a and b are equal");
+    }
+    ```
+
+- **Reference Types:**
+  - For reference types (objects), the `==` operator compares the references (memory addresses) to check if they refer to the same object in memory.
+  
+    ```java
+    String str1 = new String("Hello");
+    String str2 = new String("Hello");
+    if (str1 == str2) {
+        System.out.println("str1 and str2 are the same object");
+    } else {
+        System.out.println("str1 and str2 are different objects");
+    }
+    ```
+
+### 2. **The `equals()` Method:**
+
+- **Default Implementation (Object Class):**
+  - The `equals()` method is defined in the `Object` class and its default implementation also compares references, just like `==`.
+  - Subclasses of `Object` can override `equals()` to provide a meaningful comparison based on the values of the objects.
+
+    ```java
+    public class Person {
+        private String name;
+        private int age;
+
+        public Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            Person person = (Person) obj;
+            return age == person.age && Objects.equals(name, person.name);
+        }
+    }
+    ```
+
+- **String Class Example:**
+  - The `String` class overrides the `equals()` method to compare the contents of the strings.
+
+    ```java
+    String str1 = new String("Hello");
+    String str2 = new String("Hello");
+    if (str1.equals(str2)) {
+        System.out.println("str1 and str2 have the same content");
+    } else {
+        System.out.println("str1 and str2 have different content");
+    }
+    ```
+
+### Summary:
+
+- **`==` Operator:**
+  - Compares references (memory addresses) for objects.
+  - Compares actual values for primitive data types.
+
+- **`equals()` Method:**
+  - Defined in the `Object` class and can be overridden by other classes.
+  - Compares values/content of objects if overridden (e.g., in `String`, `Integer`, `Person`).
+
+### Example for Clarity:
+
+```java
+String a = new String("test");
+String b = new String("test");
+
+if (a == b) {
+    System.out.println("a and b are the same object");
+} else {
+    System.out.println("a and b are different objects"); // This will print
+}
+
+if (a.equals(b)) {
+    System.out.println("a and b have the same content"); // This will print
+}
+```
+
+In this example:
+- `a == b` returns `false` because `a` and `b` are different objects in memory.
+- `a.equals(b)` returns `true` because `a` and `b` have the same content.
+
+## Can you explain what the Java Virtual Machine (JVM) is and how it works?
+That's a good overview. Here's a bit more detail:
+
+The Java Virtual Machine (JVM) is a part of the Java Runtime Environment (JRE). Its primary job is to load Java class files, verify the bytecode, and execute it. The JVM provides a platform-independent way of executing code, making Java "write once, run anywhere."
+
+Key components and steps in the JVM include:
+
+1. **Class Loader**: Loads class files into memory.
+2. **Bytecode Verifier**: Ensures the bytecode adheres to Java's security rules and syntax.
+3. **Interpreter/Just-In-Time (JIT) Compiler**: Converts bytecode into native machine code. The JIT compiler improves performance by compiling bytecode into native code at runtime.
+4. **Garbage Collector**: Manages memory by automatically deallocating objects that are no longer in use.
+
+The JVM handles memory management, thread management, and provides a runtime environment for Java applications.

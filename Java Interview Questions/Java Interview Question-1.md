@@ -296,7 +296,21 @@ The `final` keyword in Java serves multiple purposes:
 - For method parameters, it ensures the parameters remain unchanged within the method.
 - It helps in creating immutable classes, ensuring that the object's state cannot be altered after it is created.
 
+## Can you explain the purpose and usage of the final, finally, and finalize keywords in Java?
 Using `final` appropriately can lead to more robust and maintainable code by providing clear intentions about immutability and preventing unintended modifications.
+You're doing great! Here's a little more detail for clarity:
+
+- **final** keyword:
+  - When applied to a variable, it means the variable's value cannot be changed once assigned.
+  - When applied to a method, it means the method cannot be overridden by subclasses.
+  - When applied to a class, it means the class cannot be subclassed.
+
+- **finally** block:
+  - This block is used in a try-catch statement. It ensures that a section of code runs regardless of whether an exception is thrown or not. It’s typically used for clean-up activities like closing files or releasing resources.
+
+- **finalize** method:
+  - This is a method of the Object class that the garbage collector calls before destroying an object. It's used to perform clean-up operations, but its use is generally discouraged in favor of using try-with-resources and other clean-up mechanisms.
+
 
 ## What is the difference between == and equals() in Java?
 
@@ -415,3 +429,17 @@ Key components and steps in the JVM include:
 4. **Garbage Collector**: Manages memory by automatically deallocating objects that are no longer in use.
 
 The JVM handles memory management, thread management, and provides a runtime environment for Java applications.
+
+## Interviewer: What is the difference between a String, StringBuilder, and StringBuffer in Java?
+
+Great explanation! You've covered the key differences between `String`, `StringBuilder`, and `StringBuffer` very well. To summarize:
+
+- **String**: Immutable, meaning its value cannot be changed once created. Uses string pool for memory optimization.
+- **StringBuilder**: Mutable, not thread-safe, and faster than `StringBuffer` because it does not have synchronized methods.
+- **StringBuffer**: Mutable, thread-safe, and slower than `StringBuilder` due to synchronized methods.
+
+
+
+
+
+
